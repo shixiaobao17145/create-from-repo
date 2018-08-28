@@ -1,13 +1,14 @@
 var downloadGitRepo = require('./download-git');
 
 function fetchGit(options) {
-    var {
-        branchOrTag,
-        source,
-        target
-    } = options;
+	var {
+		branchOrTag,
+		source,
+		target,
+		isSSH
+	} = options;
 
-    return downloadGitRepo(source, branchOrTag, target);
+	return downloadGitRepo.fetchGit(source, branchOrTag, target, isSSH);
 }
 
 module.exports = fetchGit;
