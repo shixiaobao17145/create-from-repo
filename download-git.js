@@ -34,7 +34,15 @@ module.exports = {
 	},
 	url2Repo:function(url, branch, tag){
 		let reg = /((f|ht)tps?:\/\/[^\/]*\/|\w+@[^:]*?:)?([^\/]*\/[^\/]*?)(\.[^\/]*)?$/i;
+		//matches
+		//0: whole string, which is the whole url
+		//1:git@xxx.com or https://xxx.com
+		//2: f or ht
+		//3: ownerAndName
+		//4: .git 
 		let matches = url.match(reg);
+		//debug
+		//console.log('matches', matches);
 		let owerAndName = matches[3];
 		let origin = matches[1] || 'https://github.com/';
 		let repo = {
@@ -44,11 +52,13 @@ module.exports = {
 			tag,
 			branchOrTag: branch || tag
 		}
-		if(!matches[2]){
+		if(matches[1] && !matches[2]){//it is ssh type url like git@xxx.com
+			//			console.log('debug: match the ssh type url');
 			repo.sshUrl = url;
 			let rawOrigin = origin.split(/@|:/)[1];
 			origin = 'https://' + rawOrigin +'/';
 			repo.rawOrigin = rawOrigin;
+			//console.log('debug: match the ssh type url');
 		}else{
 			let protocolIdx = origin.indexOf(':');
 			repo.rawOrigin = origin.substring(protocolIdx+3, origin.length - 1);
@@ -58,6 +68,8 @@ module.exports = {
 		repo.repoUrl = repoUrl;
 		let zipUrl = origin + owerAndName + '/archive/' + repo.branchOrTag + '.zip';
 		repo.zipUrl = zipUrl;
+		//debug
+		console.log('repo', repo);
 		return repo;
 	},
 	downloadZip:function (repo, dest){
