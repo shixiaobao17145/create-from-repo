@@ -3,8 +3,8 @@ var gitclone = require('git-clone');
 var rm = require('rimraf').sync;
 
 module.exports = {
-	fetchGit:function(url, branchOrTag = 'master', dest, isSSH){
-		let repo = this.url2Repo(url, branchOrTag);
+	fetchGit:function(url, branch = 'master', tag, dest, isSSH){
+		let repo = this.url2Repo(url, branch,tag);
 		if(!isSSH){
 			return this.downloadZip(repo, dest);
 		}else{
@@ -13,7 +13,15 @@ module.exports = {
 	},
 	downloadByClone:function(repo, dest){
 		let resolve,reject, promise = new Promise((rs,rj)=>(resolve = rs, reject=rj));
-		console.log('exec git clone with url:' + repo.sshUrl + ', branchOrTag:' + repo.branchOrTag);
+		//====compose the info message
+		let strs = ['exec git clone with url: ' + repo.sshUrl];
+		['branch','tag'].forEach(key=>{
+			if(repo[key]){
+				strs.push(` ${key}: ${repo[key]}`);
+			}
+		});
+		console.log(strs.join(','));
+		//=== end of compose the info message
 		gitclone(repo.sshUrl, dest, { checkout: repo.branchOrTag, shallow: repo.branchOrTag == 'master' }, function (err) {
 			if (err === undefined) {
 				rm(dest + '/.git')
@@ -24,7 +32,7 @@ module.exports = {
 		});
 		return promise;
 	},
-	url2Repo:function(url, branchOrTag){
+	url2Repo:function(url, branch, tag){
 		let reg = /((f|ht)tps?:\/\/[^\/]*\/|\w+@[^:]*?:)?([^\/]*\/[^\/]*?)(\.[^\/]*)?$/i;
 		let matches = url.match(reg);
 		let owerAndName = matches[3];
@@ -32,7 +40,9 @@ module.exports = {
 		let repo = {
 			origin,
 			owerAndName,
-			branchOrTag
+			branch,
+			tag,
+			branchOrTag: branch || tag
 		}
 		if(!matches[2]){
 			repo.sshUrl = url;
@@ -46,7 +56,7 @@ module.exports = {
 		}
 		let repoUrl = origin + owerAndName + '.git';
 		repo.repoUrl = repoUrl;
-		let zipUrl = origin + owerAndName + '/archive/' + branchOrTag + '.zip';
+		let zipUrl = origin + owerAndName + '/archive/' + repo.branchOrTag + '.zip';
 		repo.zipUrl = zipUrl;
 		return repo;
 	},
