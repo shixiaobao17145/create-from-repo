@@ -69,7 +69,7 @@ module.exports = {
 		let zipUrl = origin + owerAndName + '/archive/' + repo.branchOrTag + '.zip';
 		repo.zipUrl = zipUrl;
 		//debug
-		console.log('repo', repo);
+		//		console.log('repo', repo);
 		return repo;
 	},
 	downloadZip:function (repo, dest){
