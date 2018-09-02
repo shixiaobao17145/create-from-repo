@@ -33,7 +33,7 @@ module.exports = {
 		return promise;
 	},
 	url2Repo:function(url, branch, tag){
-		let reg = /((f|ht)tps?:\/\/[^\/]*\/|\w+@[^:]*?:)?([^\/]*\/[^\/]*?)(\.[^\/]*)?$/i;
+		let reg = /((f|ht)tps?:\/\/[^\/]*\/|\w+@[^:]*?:)?([^\/]*\/[^\/]*?)(\.[^\/\.]*)?$/i;
 		//matches
 		//0: whole string, which is the whole url
 		//1:git@xxx.com or https://xxx.com
