@@ -20,9 +20,13 @@ create-from-repo is a tool for creating a new project by download from an existi
 ## Examples
 
 	create-from-repo https://github.com/shixiaobao17145/create-from-repo.git .
+
 Or
+
 	create-from-repo git@github.com:shixiaobao17145/create-from-repo.git .
+
 Or 
+
 	create-from-repo shixiaobao17145/create-from-repo .
 
 It will download the create-from-repo to current dir. It will also work in other domain in the full-url mode, like `create-from-repo https://gitee.com/bobshi/create-from-repo .`
