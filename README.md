@@ -1,6 +1,6 @@
 # create-from-repo
 
-create-from-repo is a tool for creating a new project by download from an existing git repo.
+create-from-repo is a tool for creating a new project by downloading from an existing git repo.
 
 
 ## Install
@@ -21,11 +21,11 @@ create-from-repo is a tool for creating a new project by download from an existi
 
 	create-from-repo https://github.com/shixiaobao17145/create-from-repo.git .
 
-Or
+or
 
 	create-from-repo git@github.com:shixiaobao17145/create-from-repo.git .
 
-Or 
+or 
 
 	create-from-repo shixiaobao17145/create-from-repo .
 
